@@ -224,19 +224,59 @@ paths:
   /hardware:
     get:
       parameters:
-        - name: status
-          in: query
-          schema:
-            type: string
-        - name: model_id
-          in: query
-          schema:
-            type: integer
         - name: limit
           in: query
           schema:
             type: integer
+          description: Number of results to return (default 2)
         - name: offset
+          in: query
+          schema:
+            type: integer
+          description: Offset to use (default 0)
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search string for asset fields
+        - name: order_number
+          in: query
+          schema:
+            type: string
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: order
+          in: query
+          schema:
+            type: string
+            enum: [ asc, desc ]
+        - name: model_id
+          in: query
+          schema:
+            type: integer
+        - name: category_id
+          in: query
+          schema:
+            type: integer
+        - name: manufacturer_id
+          in: query
+          schema:
+            type: integer
+        - name: company_id
+          in: query
+          schema:
+            type: integer
+        - name: location_id
+          in: query
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: status_id
           in: query
           schema:
             type: integer
