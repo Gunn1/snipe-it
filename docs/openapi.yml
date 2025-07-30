@@ -223,6 +223,23 @@ components:
 paths:
   /hardware:
     get:
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: model_id
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          schema:
+            type: integer
       tags:
         - Hardware
       summary: Get a list of hardware assets
