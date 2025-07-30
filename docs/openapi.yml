@@ -18,6 +18,389 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    AssetByTagResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          default: 0
+        name:
+          type: string
+        asset_tag:
+          type: string
+        serial:
+          type: string
+        model:
+          $ref: '#/components/schemas/AssetModel'
+        status_label:
+          type: object
+          properties:
+            id:
+              type: integer
+              default: 0
+            name:
+              type: string
+            status_meta:
+              type: string
+        category:
+          type: object
+          properties:
+            id:
+              type: integer
+              default: 0
+            name:
+              type: string
+        manufacturer:
+          type: object
+          properties:
+            id:
+              type: integer
+              default: 0
+            name:
+              type: string
+        supplier:
+          type: object
+          properties:
+            id:
+              type: integer
+              default: 0
+            name:
+              type: string
+        notes:
+          type: string
+        order_number:
+          type: string
+        company:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+        rtd_location:
+          $ref: '#/components/schemas/Location'
+        image:
+          type: string
+        assigned_to:
+          $ref: '#/components/schemas/UserSummary'
+        warranty:
+          type: string
+        warranty_expires:
+          type: string
+        created_at:
+          $ref: '#/components/schemas/Timestamp'
+        updated_at:
+          $ref: '#/components/schemas/Timestamp'
+        purchase_date:
+          $ref: '#/components/schemas/DateFormatted'
+        last_checkout:
+          $ref: '#/components/schemas/Timestamp'
+        expected_checkin:
+          $ref: '#/components/schemas/DateFormatted'
+        purchase_cost:
+          type: string
+        user_can_checkout:
+          type: boolean
+          default: true
+        custom_fields:
+          type: array
+          items:
+            type: object
+        available_actions:
+          type: object
+          properties:
+            checkout:
+              type: boolean
+              default: true
+            checkin:
+              type: boolean
+              default: true
+            clone:
+              type: boolean
+              default: true
+            update:
+              type: boolean
+              default: true
+            delete:
+              type: boolean
+              default: true
+    DateFormatted:
+      type: object
+      properties:
+        date:
+          type: string
+        formatted:
+          type: string
+    UserSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          default: 0
+        username:
+          type: string
+        name:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        employee_number:
+          type: string
+        type:
+          type: string
+    Timestamp:
+      type: object
+      properties:
+        datetime:
+          type: string
+        formatted:
+          type: string
+    AssetResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        messages:
+          type: string
+        payload:
+          $ref: '#/components/schemas/AssetPayload'
+
+    AssetPayload:
+      type: object
+      properties:
+        model_id:
+          type: integer
+          default: 0
+        name:
+          type: string
+        serial:
+          type: string
+        company_id:
+          type: string
+        order_number:
+          type: string
+        notes:
+          type: string
+        asset_tag:
+          type: string
+        user_id:
+          type: integer
+          default: 0
+        archived:
+          type: string
+        physical:
+          type: string
+        depreciate:
+          type: string
+        status_id:
+          type: integer
+          default: 0
+        warranty_months:
+          type: string
+        purchase_cost:
+          type: string
+        purchase_date:
+          type: string
+        assigned_to:
+          type: string
+        supplier_id:
+          type: string
+        requestable:
+          type: integer
+          default: 0
+        rtd_location_id:
+          type: string
+        updated_at:
+          type: string
+        created_at:
+          type: string
+        id:
+          type: integer
+          default: 0
+        model:
+          $ref: '#/components/schemas/AssetModel'
+
+    AssetModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          default: 0
+        name:
+          type: string
+        model_number:
+          type: string
+        manufacturer_id:
+          type: integer
+          default: 0
+        category_id:
+          type: integer
+          default: 0
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        depreciation_id:
+          type: integer
+          default: 0
+        eol:
+          type: integer
+          default: 0
+        image:
+          type: string
+        deprecated_mac_address:
+          type: integer
+          default: 0
+        fieldset_id:
+          type: string
+        notes:
+          type: string
+        requestable:
+          type: integer
+          default: 0
+    CreateAssetRequest:
+      type: object
+      properties:
+        asset_tag:
+          type: string
+        status_id:
+          type: integer
+        model_id:
+          type: integer
+        name:
+          type: string
+        image:
+          type: string
+          format: byte
+        serial:
+          type: string
+        purchase_date:
+          type: string
+          format: date
+        purchase_cost:
+          type: number
+          format: float
+        order_number:
+          type: string
+        notes:
+          type: string
+        archived:
+          type: boolean
+          default: false
+        warranty_months:
+          type: integer
+          nullable: true
+        depreciate:
+          type: boolean
+          default: false
+        supplier_id:
+          type: integer
+          nullable: true
+        requestable:
+          type: boolean
+          default: false
+        rtd_location_id:
+          type: integer
+          nullable: true
+        last_audit_date:
+          type: string
+          format: date
+        location_id:
+          type: integer
+          nullable: true
+        byod:
+          type: boolean
+        assigned_user:
+          type: integer
+        assigned_asset:
+          type: integer
+        assigned_location:
+          type: integer
+      required:
+        - status_id
+        - model_id
+
+
+    PartialUpdateAssetRequest:
+      type: object
+      properties:
+        asset_tag:
+          type: string
+        notes:
+          type: string
+          nullable: true
+        status_id:
+          type: integer
+        model_id:
+          type: integer
+        last_checkout:
+          type: string
+          format: date
+        assigned_user:
+          type: integer
+          nullable: true
+        assigned_location:
+          type: integer
+          nullable: true
+        assigned_asset:
+          type: integer
+          nullable: true
+        company_id:
+          type: integer
+          nullable: true
+        serial:
+          type: string
+          nullable: true
+        order_number:
+          type: string
+          nullable: true
+        warranty_months:
+          type: integer
+          nullable: true
+        purchase_cost:
+          type: number
+          format: float
+          nullable: true
+        purchase_date:
+          type: string
+          format: date
+          nullable: true
+        requestable:
+          type: boolean
+        archived:
+          type: boolean
+        rtd_location_id:
+          type: integer
+          nullable: true
+        name:
+          type: string
+        location_id:
+          type: string
+          nullable: true
+        byod:
+          type: integer
+    RestoreAssetResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        messages:
+          type: string
+          example: Asset restored successfully
+        payload:
+          type: object
+          properties:
+            asset_tag:
+              type: string
+            note:
+              type: string
+            next_audit_date:
+              type: object
+              properties:
+                datetime:
+                  type: string
+                  format: date-time
+                formatted:
+                  type: string
     Model:
       type: object
       properties:
@@ -26,6 +409,25 @@ components:
         name:
           type: string
 
+    CheckinRequest:
+      type: object
+      properties:
+        status_id:
+          type: integer
+          description: Status to assign to the asset after checkin
+        name:
+          type: string
+          nullable: true
+          description: Optional new name for the asset
+        note:
+          type: string
+          description: Optional note about the checkin
+        location_id:
+          type: string
+          description: Updated location ID for this item
+      required:
+        - status_id
+
     EOL:
       type: object
       properties:
@@ -33,6 +435,110 @@ components:
           type: string
         formatted:
           type: string
+    UpdateAssetRequest:
+      type: object
+      properties:
+        asset_tag:
+          type: string
+        status_id:
+          type: integer
+        model_id:
+          type: integer
+        notes:
+          type: string
+        last_checkout:
+          type: string
+          format: date
+        assigned_user:
+          type: integer
+          nullable: true
+        assigned_location:
+          type: integer
+          nullable: true
+        assigned_asset:
+          type: integer
+          nullable: true
+        company_id:
+          type: integer
+          nullable: true
+        serial:
+          type: string
+          nullable: true
+        order_number:
+          type: string
+        warranty_months:
+          type: integer
+          nullable: true
+        purchase_cost:
+          type: number
+          format: float
+          nullable: true
+        purchase_date:
+          type: string
+          format: date
+          nullable: true
+        requestable:
+          type: boolean
+          default: false
+        archived:
+          type: boolean
+          default: false
+        rtd_location_id:
+          type: integer
+          nullable: true
+        name:
+          type: string
+        location_id:
+          type: integer
+          nullable: true
+        image:
+          type: string
+          format: binary
+        byod:
+          type: integer
+      required:
+        - asset_tag
+        - status_id
+        - model_id
+    AuditAssetRequest:
+      type: object
+      properties:
+        asset_tag:
+          type: string
+          description: Asset tag of the asset to audit
+        location_id:
+          type: integer
+          description: Optional location ID associated with this audit
+        next_audit_date:
+          type: string
+          format: date
+          description: Optional next audit date for the asset
+      required:
+        - asset_tag
+    AuditAssetResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        messages:
+          type: string
+          example: Audit completed successfully
+        payload:
+          type: object
+          properties:
+            asset_tag:
+              type: string
+            note:
+              type: string
+            next_audit_date:
+              type: object
+              properties:
+                datetime:
+                  type: string
+                  format: date-time
+                formatted:
+                  type: string
 
     CreatedAt:
       type: object
@@ -66,7 +572,52 @@ components:
           type: string
         status_meta:
           type: string
-
+    BasicResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        messages:
+          type: string
+          example: Asset updated successfully.
+    CheckoutRequest:
+      type: object
+      properties:
+        status_id:
+          type: integer
+          description: ID of the checkout status
+        checkout_to_type:
+          type: string
+          enum: [ user, asset, location ]
+          default: user
+          description: Type of entity the asset is being checked out to
+        assigned_user:
+          type: integer
+          description: Required if `checkout_to_type` is `user`
+        assigned_asset:
+          type: integer
+          description: Required if `checkout_to_type` is `asset`
+        assigned_location:
+          type: integer
+          description: Required if `checkout_to_type` is `location`
+        expected_checkin:
+          type: string
+          format: date
+          description: Optional expected check-in date
+        checkout_at:
+          type: string
+          format: date
+          description: Optional override of checkout date
+        name:
+          type: string
+          description: Optional new asset name during checkout
+        note:
+          type: string
+          description: Optional note about the checkout
+      required:
+        - status_id
+        - checkout_to_type
     Category:
       type: object
       properties:
@@ -74,6 +625,17 @@ components:
           type: integer
         name:
           type: string
+
+    AuditOverdueResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetByTagResponse'  # assuming AssetDetail is a reusable full asset schema
+
     Manufacturer:
       type: object
       properties:
@@ -102,6 +664,17 @@ components:
           type: integer
         name:
           type: string
+
+    AuditDueResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetByTagResponse'  # reuse the full asset shape
+
     AvailableActions:
       type: object
       properties:
@@ -117,7 +690,26 @@ components:
           type: boolean
         delete:
           type: boolean
-
+    ErrorObject:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Unauthorized or Asset not found
+    FileUploadRequest:
+      type: object
+      properties:
+        file:
+          type: array
+          items:
+            type: string
+            format: binary
+          description: One or more files to upload (`file[]`)
+        notes:
+          type: string
+          description: Optional notes associated with the upload
+      required:
+        - file
     Error:
       type: object
       properties:
@@ -136,6 +728,176 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Hardware'
+
+    LicenseListResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+          default: 0
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/License'
+
+    License:
+      type: object
+      properties:
+        id:
+          type: integer
+          default: 0
+        name:
+          type: string
+        company:
+          type: string
+        manufacturer:
+          type: object
+          properties:
+            id:
+              type: integer
+              default: 0
+            name:
+              type: string
+        product_key:
+          type: string
+        order_number:
+          type: string
+        purchase_order:
+          type: string
+        purchase_date:
+          type: object
+          properties:
+            date:
+              type: string
+            formatted:
+              type: string
+        purchase_cost:
+          type: string
+        notes:
+          type: string
+        expiration_date:
+          type: object
+          properties:
+            date:
+              type: string
+            formatted:
+              type: string
+        seats:
+          type: integer
+          default: 0
+        free_seats_count:
+          type: integer
+          default: 0
+        license_name:
+          type: string
+        license_email:
+          type: string
+        maintained:
+          type: boolean
+          default: true
+        supplier:
+          type: object
+          properties:
+            id:
+              type: integer
+              default: 0
+            name:
+              type: string
+        category:
+          type: object
+          properties:
+            id:
+              type: integer
+              default: 0
+            name:
+              type: string
+        created_at:
+          type: object
+          properties:
+            datetime:
+              type: string
+            formatted:
+              type: string
+        updated_at:
+          type: object
+          properties:
+            datetime:
+              type: string
+            formatted:
+              type: string
+        user_can_checkout:
+          type: boolean
+          default: true
+        available_actions:
+          type: object
+          properties:
+            checkout:
+              type: boolean
+              default: true
+            checkin:
+              type: boolean
+              default: true
+            clone:
+              type: boolean
+              default: true
+            update:
+              type: boolean
+              default: true
+            delete:
+              type: boolean
+              default: true
+    LabelRequest:
+      type: object
+      required:
+        - asset_tags
+      properties:
+        asset_tags:
+          type: array
+          items:
+            type: string
+          description: List of asset tags to generate labels for
+
+    LabelResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        messages:
+          type: string
+          example: Labels generated successfully
+        data:
+          type: string
+          format: byte
+          description: Base64-encoded PDF
+    AssetFilesResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetFile'
+
+    AssetFile:
+      type: object
+      properties:
+        id:
+          type: integer
+        filename:
+          type: string
+        filesize:
+          type: integer
+        user_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
     Hardware:
       type: object
       properties:
@@ -303,3 +1065,527 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    post:
+      summary: Creates a new asset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAssetRequest'
+      responses:
+        '200':
+          description: Returns asset data or error with status="error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetResponse'
+        '401':
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  /hardware/bytag/{asset_tag}:
+    get:
+      summary: Get asset by asset tag
+      description: Get details of a specific asset by its asset_tag (not ID)
+      parameters:
+        - name: asset_tag
+          in: path
+          required: true
+          description: The asset tag of the asset to query
+          schema:
+            type: string
+        - name: deleted
+          in: query
+          required: false
+          description: Include deleted items in results
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Asset found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetByTagResponse'
+        '404':
+          description: Asset not found
+  /hardware/byserial/{serial}:
+    get:
+      summary: Get asset by serial number
+      description: Get details of a specific asset using its serial number (not ID)
+      parameters:
+        - name: serial
+          in: path
+          required: true
+          description: The serial number of the asset to query
+          schema:
+            type: string
+        - name: deleted
+          in: query
+          required: false
+          description: Include deleted items in results
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Asset found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetByTagResponse'
+        '401':
+          description: Unauthorized – API key is missing or invalid
+        '404':
+          description: Asset not found
+
+  /hardware/{id}:
+    get:
+      summary: Get a asset by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: id
+          in: query
+          schema:
+            type: integer
+          description: The id (not the asset tag) of the asset you'd like to query
+      responses:
+        '200':
+          description: Returns asset data or error with status="error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetResponse'
+        '401':
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Update a specific asset
+      description: Updates fields of an existing asset. To update custom fields, use the DB field name from your Snipe-IT settings.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the asset to update
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateAssetRequest'
+      responses:
+        '200':
+          description: Asset updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicResponse'
+        '404':
+          description: Asset not found
+        '401':
+          description: Unauthorized – API key missing or invalid
+    patch:
+      summary: Partially update a specific asset
+      description: Updates one or more fields of an existing asset. Use DB Field Names to update custom fields.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the asset to update
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartialUpdateAssetRequest'
+      responses:
+        '200':
+          description: Asset updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicResponse'
+        '404':
+          description: Asset not found
+        '500':
+          description: Server error
+    delete:
+      summary: Delete a specific asset
+      description: Permanently deletes the asset with the specified ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the asset to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Asset deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicResponse'
+        '401':
+          description: Unauthorized – API key missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+        '404':
+          description: Asset not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+
+  /hardware/{id}/checkout:
+    post:
+      summary: Checkout an asset
+      description: Check out an asset to a user, asset, or location. `checkout_to_type` is required, along with the corresponding `assigned_*` field.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the asset to check out
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+      responses:
+        '200':
+          description: Asset checked out successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicResponse'
+        '401':
+          description: Unauthorized – API key missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+  /hardware/{id}/checkin:
+    post:
+      summary: Checkin an asset
+      description: Checks in a specific asset. Updates its status, optional name, note, and location.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the asset to check in
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckinRequest'
+      responses:
+        '200':
+          description: Asset checked in successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicResponse'
+        '401':
+          description: Unauthorized – API key missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+  /hardware/audit:
+    post:
+      summary: Mark an asset as audited
+      description: Records an audit entry for an asset by its asset tag. Optionally sets the next audit date and location.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuditAssetRequest'
+      responses:
+        '200':
+          description: Audit recorded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditAssetResponse'
+        '401':
+          description: Unauthorized – API key missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+        '404':
+          description: Asset not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+  /hardware/{id}/restore:
+    post:
+      summary: Restore a deleted asset
+      description: Restores a soft-deleted asset using its numeric ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the asset to restore
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Asset restored successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestoreAssetResponse'
+        '401':
+          description: Unauthorized – API key missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+        '404':
+          description: Asset not found or not restorable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+  /hardware/audit/due:
+    get:
+      summary: Get assets due for auditing
+      description: Returns a list of assets that are due for auditing based on the Audit Threshold in Admin Settings > Notifications.
+      responses:
+        '200':
+          description: Assets due for audit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditDueResponse'
+        '401':
+          description: Unauthorized – API key missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+        '404':
+          description: No assets found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+  /hardware/audit/overdue:
+    get:
+      summary: Get assets overdue for auditing
+      description: Returns a list of assets that are overdue for auditing based on the Audit Threshold in Admin Settings > Notifications.
+      responses:
+        '200':
+          description: Assets overdue for audit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditOverdueResponse'
+        '401':
+          description: Unauthorized – API key missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+        '404':
+          description: No overdue assets found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+  /hardware/{id}/licenses:
+    get:
+      summary: Get licenses checked out to an asset
+      description: Returns a list of licenses associated with a specific asset by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The numeric ID of the asset
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Licenses assigned to the asset
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LicenseListResponse'
+        '401':
+          description: Unauthorized – API key missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+        '404':
+          description: Asset not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+  /hardware/labels:
+    post:
+      summary: Generate PDF asset labels
+      description: Generates asset labels in PDF format for the provided asset tags. The resulting PDF is returned as a Base64-encoded string.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabelRequest'
+      responses:
+        '200':
+          description: Base64-encoded PDF of asset labels
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabelResponse'
+        '400':
+          description: Bad request – missing or invalid asset tags
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+  /hardware/{id}/files:
+    post:
+      summary: Upload file(s) to an asset
+      description: Upload one or more files to the specified asset. Use `file[]` for multiple files. Optionally attach notes to the upload.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the asset
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileUploadRequest'
+      responses:
+        '200':
+          description: File(s) uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicResponse'
+        '400':
+          description: Bad request – missing file or invalid format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+    get:
+      summary: List files uploaded to an asset
+      description: Returns a list of uploaded files for the specified asset.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the asset
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of uploaded files
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetFilesResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+
+  /hardware/{id}/files/{file_id}:
+    get:
+      summary: Download a file from an asset
+      description: Downloads a specific uploaded file associated with a given asset by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the asset
+          schema:
+            type: integer
+        - name: file_id
+          in: path
+          required: true
+          description: ID of the file to download
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: File downloaded successfully
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request – invalid asset or file ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+    delete:
+      summary: Delete a specific file from an asset
+      description: Deletes a specific uploaded file associated with an asset by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the asset
+          schema:
+            type: integer
+        - name: file_id
+          in: path
+          required: true
+          description: ID of the file to delete
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: File deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicResponse'
+        '400':
+          description: Bad request – invalid file or asset ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorObject'
+
