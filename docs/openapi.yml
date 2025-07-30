@@ -1,0 +1,248 @@
+openapi: 3.0.3
+info:
+  title: Snipe-IT API
+  version: 6.0.0
+  description: OpenAPI specification for the Snipe-IT hardware endpoint.
+
+servers:
+  - url: https://develop.snipeitapp.com/api/v1
+    description: Snipe-IT Demo API
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Model:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    EOL:
+      type: object
+      properties:
+        date:
+          type: string
+        formatted:
+          type: string
+
+    CreatedAt:
+      type: object
+      properties:
+        datetime:
+          type: string
+        formatted:
+          type: string
+    UpdatedAt:
+      type: object
+      properties:
+        datetime:
+          type: string
+        formatted:
+          type: string
+    PurchaseDate:
+      type: object
+      properties:
+        datetime:
+          type: string
+        formatted:
+          type: string
+    StatusLabel:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        status_type:
+          type: string
+        status_meta:
+          type: string
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Manufacturer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Supplier:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    RtdLocation:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    AvailableActions:
+      type: object
+      properties:
+        checkout:
+          type: boolean
+        checkin:
+          type: boolean
+        clone:
+          type: boolean
+        restore:
+          type: boolean
+        update:
+          type: boolean
+        delete:
+          type: boolean
+
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        messages:
+          type: string
+        payload:
+          type: string
+    HardwareList:
+      type: object
+      properties:
+        total:
+          type: integer
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/Hardware'
+    Hardware:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        asset_tag:
+          type: string
+        serial:
+          type: string
+        model:
+          $ref: '#/components/schemas/Model'
+        model_number:
+          type: string
+        eol:
+          $ref: '#/components/schemas/EOL'
+        status_label:
+          $ref: '#/components/schemas/StatusLabel'
+        category:
+          $ref: '#/components/schemas/Category'
+        manufacturer:
+          $ref: '#/components/schemas/Manufacturer'
+        supplier:
+          $ref: '#/components/schemas/Supplier'
+        notes:
+          type: string
+        order_number:
+          type: string
+        company:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+        rtd_location:
+          $ref: '#/components/schemas/RtdLocation'
+        image:
+          type: string
+        qr:
+          type: string
+        alt_barcode:
+          type: string
+        assigned_to:
+          type: string
+        warranty_months:
+          type: string
+        warranty_expires:
+          type: string
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+        last_audit_date:
+          type: string
+        next_audit_date:
+          type: string
+        deleted_at:
+          type: string
+          format: date
+        purchase_date:
+          $ref: '#/components/schemas/PurchaseDate'
+        age:
+          type: string
+        last_checkout:
+          type: string
+        expected_checkin:
+          type: string
+        purchase_cost:
+          type: string
+        checkin_counter:
+          type: integer
+          default: 0
+        checkout_counter:
+          type: integer
+          default: 0
+        requests_counter:
+          type: integer
+          default: 0
+        user_can_checkout:
+          type: boolean
+        available_actions:
+          $ref: '#/components/schemas/AvailableActions'
+
+
+
+paths:
+  /hardware:
+    get:
+      tags:
+        - Hardware
+      summary: Get a list of hardware assets
+      operationId: getHardwareList
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HardwareList'
+        '401':
+          description: "Unauthorized response"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: "Method Not Allowed"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
